@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:flowable="http://flowable.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://flowable.org/test">
+  <process id="alumniProj" name="Alumni Document Request Process" isExecutable="true">
+    <startEvent id="startEvent" name="Start"/>
+    <userTask id="submitRequest" name="Submit Document Request"/>
+    <exclusiveGateway id="gateway1" name="Document Type"/>
+    <userTask id="payTranscript" name="Pay for Transcript"/>
+    <userTask id="payCertificate" name="Pay for Certificate"/>
+    <userTask id="payLetter" name="Pay for Letter of Attestation"/>
+    <exclusiveGateway id="gateway2" name="Payment Gateway"/>
+    <userTask id="payRemita" name="Pay via Remita"/>
+    <userTask id="payPaystack" name="Pay via Paystack"/>
+    <userTask id="payInterswitch" name="Pay via Interswitch"/>
+    <serviceTask id="processPayment" name="Process Payment"/>
+    <userTask id="approveTranscript" name="Approve Transcript Request"/>
+    <userTask id="approveCertificate" name="Approve Certificate Request"/>
+    <userTask id="approveLetter" name="Approve Letter of Attestation Request"/>
+    <serviceTask id="retrieveRecords" name="Retrieve Academic Records"/>
+    <serviceTask id="generateDocument" name="Generate Document"/>
+    <serviceTask id="sendNotification" name="Send Notification"/>
+    <endEvent id="endEvent" name="End"/>
+    <sequenceFlow id="flow1" sourceRef="startEvent" targetRef="submitRequest"/>
+    <sequenceFlow id="flow2" sourceRef="submitRequest" targetRef="gateway1"/>
+    <sequenceFlow id="flow3" sourceRef="gateway1" targetRef="payTranscript">
+      <conditionExpression xsi:type="tFormalExpression">${documentType == 'Transcript'}</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow4" sourceRef="gateway1" targetRef="payCertificate">
+      <conditionExpression xsi:type="tFormalExpression">${documentType == 'Certificate'}</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow5" sourceRef="gateway1" targetRef="payLetter">
+      <conditionExpression xsi:type="tFormalExpression">${documentType == 'Letter'}</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow6" sourceRef="payTranscript" targetRef="gateway2"/>
+    <sequenceFlow id="flow7" sourceRef="payCertificate" targetRef="gateway2"/>
+    <sequenceFlow id="flow8" sourceRef="payLetter" targetRef="gateway2"/>
+    <sequenceFlow id="flow9" sourceRef="gateway2" targetRef="payRemita">
+      <conditionExpression xsi:type="tFormalExpression">${paymentGateway == 'Remita'}</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow10" sourceRef="gateway2" targetRef="payPaystack">
+      <conditionExpression xsi:type="tFormalExpression">${paymentGateway == 'Paystack'}</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow11" sourceRef="gateway2" targetRef="payInterswitch">
+      <conditionExpression xsi:type="tFormalExpression">${paymentGateway == 'Interswitch'}</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow12" sourceRef="payRemita" targetRef="processPayment"/>
+    <sequenceFlow id="flow13" sourceRef="payPaystack" targetRef="processPayment"/>
+    <sequenceFlow id="flow14" sourceRef="payInterswitch" targetRef="processPayment"/>
+    <sequenceFlow id="flow15" sourceRef="processPayment" targetRef="approveTranscript">
+      <conditionExpression xsi:type="tFormalExpression">${documentType == 'Transcript'}</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow16" sourceRef="processPayment" targetRef="approveCertificate">
+      <conditionExpression xsi:type="tFormalExpression">${documentType == 'Certificate'}</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow17" sourceRef="processPayment" targetRef="approveLetter">
+      <conditionExpression xsi:type="tFormalExpression">${documentType == 'Letter'}</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow18" sourceRef="approveTranscript" targetRef="retrieveRecords"/>
+    <sequenceFlow id="flow19" sourceRef="approveCertificate" targetRef="retrieveRecords"/>
+    <sequenceFlow id="flow20" sourceRef="approveLetter" targetRef="retrieveRecords"/>
+    <sequenceFlow id="flow21" sourceRef="retrieveRecords" targetRef="generateDocument"/>
+    <sequenceFlow id="flow22" sourceRef="generateDocument" targetRef="sendNotification"/>
+    <sequenceFlow id="flow23" sourceRef="sendNotification" targetRef="endEvent"/>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_alumniProj">
+    <bpmndi:BPMNPlane bpmnElement="alumniProj" id="BPMNPlane_alumniProj">
+      <bpmndi:BPMNShape bpmnElement="startEvent">
+        <omgdc:Bounds x="150" y="200" width="30" height="30"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="submitRequest">
+        <omgdc:Bounds x="350" y="180" width="120" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="gateway1">
+        <omgdc:Bounds x="550" y="200" width="40" height="40"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="payTranscript">
+        <omgdc:Bounds x="750" y="100" width="120" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="payCertificate">
+        <omgdc:Bounds x="750" y="200" width="120" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="payLetter">
+        <omgdc:Bounds x="750" y="300" width="120" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="gateway2">
+        <omgdc:Bounds x="950" y="200" width="40" height="40"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="payRemita">
+        <omgdc:Bounds x="1150" y="100" width="120" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="payPaystack">
+        <omgdc:Bounds x="1150" y="200" width="120" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="payInterswitch">
+        <omgdc:Bounds x="1150" y="300" width="120" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="processPayment">
+        <omgdc:Bounds x="1350" y="200" width="120" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="approveTranscript">
+        <omgdc:Bounds x="1550" y="100" width="120" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="approveCertificate">
+        <omgdc:Bounds x="1550" y="200" width="120" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="approveLetter">
+        <omgdc:Bounds x="1550" y="300" width="120" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="retrieveRecords">
+        <omgdc:Bounds x="1750" y="200" width="120" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="generateDocument">
+        <omgdc:Bounds x="1950" y="200" width="120" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sendNotification">
+        <omgdc:Bounds x="2150" y="200" width="120" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endEvent">
+        <omgdc:Bounds x="2350" y="200" width="30" height="30"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow1">
+        <omgdi:waypoint x="180" y="215"/>
+        <omgdi:waypoint x="350" y="215"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow2">
+        <omgdi:waypoint x="470" y="215"/>
+        <omgdi:waypoint x="550" y="215"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow3">
+        <omgdi:waypoint x="590" y="215"/>
+        <omgdi:waypoint x="590" y="140"/>
+        <omgdi:waypoint x="750" y="140"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow4">
+        <omgdi:waypoint x="590" y="235"/>
+        <omgdi:waypoint x="750" y="235"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow5">
+        <omgdi:waypoint x="590" y="255"/>
+        <omgdi:waypoint x="590" y="340"/>
+        <omgdi:waypoint x="750" y="340"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow6">
+        <omgdi:waypoint x="870" y="215"/>
+        <omgdi:waypoint x="950" y="215"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow7">
+        <omgdi:waypoint x="870" y="235"/>
+        <omgdi:waypoint x="950" y="235"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow8">
+        <omgdi:waypoint x="870" y="255"/>
+        <omgdi:waypoint x="950" y="255"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow9">
+        <omgdi:waypoint x="990" y="215"/>
+        <omgdi:waypoint x="990" y="140"/>
+        <omgdi:waypoint x="1150" y="140"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow10">
+        <omgdi:waypoint x="990" y="235"/>
+        <omgdi:waypoint x="1150" y="235"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow11">
+        <omgdi:waypoint x="990" y="255"/>
+        <omgdi:waypoint x="990" y="340"/>
+        <omgdi:waypoint x="1150" y="340"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow12">
+        <omgdi:waypoint x="1270" y="215"/>
+        <omgdi:waypoint x="1350" y="215"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow13">
+        <omgdi:waypoint x="1270" y="235"/>
+        <omgdi:waypoint x="1350" y="235"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow14">
+        <omgdi:waypoint x="1270" y="255"/>
+        <omgdi:waypoint x="1350" y="255"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow15">
+        <omgdi:waypoint x="1470" y="215"/>
+        <omgdi:waypoint x="1470" y="140"/>
+        <omgdi:waypoint x="1550" y="140"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow16">
+        <omgdi:waypoint x="1470" y="235"/>
+        <omgdi:waypoint x="1550" y="235"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow17">
+        <omgdi:waypoint x="1470" y="255"/>
+        <omgdi:waypoint x="1470" y="340"/>
+        <omgdi:waypoint x="1550" y="340"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow18">
+        <omgdi:waypoint x="1670" y="215"/>
+        <omgdi:waypoint x="1750" y="215"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow19">
+        <omgdi:waypoint x="1670" y="235"/>
+        <omgdi:waypoint x="1750" y="235"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow20">
+        <omgdi:waypoint x="1670" y="255"/>
+        <omgdi:waypoint x="1750" y="255"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow21">
+        <omgdi:waypoint x="1870" y="235"/>
+        <omgdi:waypoint x="1950" y="235"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow22">
+        <omgdi:waypoint x="2070" y="235"/>
+        <omgdi:waypoint x="2150" y="235"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow23">
+        <omgdi:waypoint x="2270" y="235"/>
+        <omgdi:waypoint x="2350" y="235"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

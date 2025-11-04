@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Alumni Document Request</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Submit Document Request</h2>
+        <form th:action="@{/api/alumni/start}" method="post">
+            <div class="mb-3">
+                <label for="documentType" class="form-label">Document Type</label>
+                <select class="form-select" id="documentType" name="documentType" required>
+                    <option value="Transcript">Transcript</option>
+                    <option value="Certificate">Certificate</option>
+                    <option value="Letter">Letter of Attestation</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="paymentGateway" class="form-label">Payment Gateway</label>
+                <select class="form-select" id="paymentGateway" name="paymentGateway" required>
+                    <option value="Remita">Remita</option>
+                    <option value="Paystack">Paystack</option>
+                    <option value="Interswitch">Interswitch</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="alumniId" class="form-label">Alumni ID</label>
+                <input type="text" class="form-control" id="alumniId" name="alumniId" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Request</button>
+        </form>
+    </div>
+</body>
+</html>
