@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tasks</title>
+</head>
+<body>
+    <h1>Tasks</h1>
+    <ul>
+        <li th:each="task : ${tasks}">
+            <a th:href="@{/alumni/task/{id}(id=${task.id})}" th:text="${task.name}">Task Name</a>
+        </li>
+    </ul>
+</body>
+</html>

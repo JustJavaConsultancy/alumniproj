@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Submit Document Request</title>
+</head>
+<body>
+    <h1>Submit Document Request</h1>
+    <form th:action="@{/alumni/task/{id}(id=${task.id})}" method="post">
+        <div>
+            <label for="documentType">Document Type:</label>
+            <select id="documentType" name="documentType">
+                <option value="Transcript">Transcript</option>
+                <option value="Certificate">Certificate</option>
+                <option value="Letter">Letter of Attestation</option>
+            </select>
+        </div>
+        <div>
+            <label for="alumniId">Alumni ID:</label>
+            <input type="text" id="alumniId" name="alumniId" required/>
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

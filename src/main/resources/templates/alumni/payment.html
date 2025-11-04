@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Payment</title>
+</head>
+<body>
+    <h1>Payment</h1>
+    <form th:action="@{/alumni/task/{id}(id=${task.id})}" method="post">
+        <div>
+            <label for="paymentGateway">Payment Gateway:</label>
+            <select id="paymentGateway" name="paymentGateway">
+                <option value="Remita">Remita</option>
+                <option value="Paystack">Paystack</option>
+                <option value="Interswitch">Interswitch</option>
+            </select>
+        </div>
+        <button type="submit">Proceed to Payment</button>
+    </form>
+</body>
+</html>
